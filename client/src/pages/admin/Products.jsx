@@ -1,7 +1,7 @@
 import { BackspaceIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -24,7 +24,7 @@ const Products = () => {
   return (
     <div>
       <Link
-        to={"products/new"}
+        to={"new"}
         className="bg-emerald-500 text-xl text-white rounded-md py-1 px-2"
       >
         Add new product
@@ -44,7 +44,7 @@ const Products = () => {
                 <td>{product.title}</td>
                 <td className="flex gap-4">
                   <Link
-                    to={`product/${product.id}`}
+                    to={`edit/${product.id}`}
                     className="bg-amber-400/80 px-2 py-1 rounded-lg text-base inline-flex gap-2"
                   >
                     <PencilSquareIcon className="w-6 h-6" />
