@@ -6,7 +6,9 @@ import ProductRoutes from './routes/product.controller.js'
 const app = express();
 
 // Middelwares
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 app.use(express.json());
 
 app.use("/api", ProductRoutes)
