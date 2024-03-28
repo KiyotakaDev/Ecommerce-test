@@ -1,9 +1,18 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 const Edit = () => {
-  const params = useParams()
-  console.log(params);
+  const { id } = useParams()
+  
+  useEffect(() => {
+    const editProduct = async () => {
+      const response = await axios.patch(`http://localhost:3000/api/product/${id}`)
+    }
+
+    editProduct()
+  }, [id])
+  
 
   return (
     <div>Product</div>
