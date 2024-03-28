@@ -8,9 +8,9 @@ const AdminLayout = () => {
     return <div>Que haces aqui?</div>;
   } else {
     return (
-      <div className="bg-slate-400 h-screen flex">
+      <div className="bg-slate-400 h-screen flex overflow-hidden">
         <Nav />
-        <div className="bg-slate-200 flex-grow my-4 mr-4 rounded-lg p-4">
+        <div className="bg-slate-200 flex-grow my-4 mr-4 rounded-lg p-10">
           <Outlet />
         </div>
       </div>
