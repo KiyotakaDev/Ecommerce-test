@@ -18,3 +18,13 @@ export const createProduct = async (req, res) => {
     return res.status(500).json({ error: "Current error: " + error })
   }
 }
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const client = await pool.connect()
+    const all = await client.query("SELECT * FROM products");
+    return res.status(204).json({ products: all.rows})
+  } catch (error) {
+    return res.status(500).json({ error: "Current error: " + error })
+  }
+}
