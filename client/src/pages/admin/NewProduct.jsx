@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,13 +13,7 @@ const NewProduct = () => {
     const data = { title, description, price };
     try {
       // Create product query
-      await fetch("http://localhost:3000/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+      await axios.post("http://localhost:3000/api/products", data)
       // Toast succeed
       toast.success("Product Saved!");
       setTitle("");
