@@ -21,4 +21,10 @@
   .btn-primary {
     @apply bg-teal-900 text-white px-4 py-2 rounded-md;
   }
+  .tb thead tr td {
+    @apply bg-teal-300/40;
+  }
+  .tb tr td {
+    @apply border border-teal-400/50 p-2 text-xl;
+  }
 }
