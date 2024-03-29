@@ -71,6 +71,7 @@ const Products = () => {
           ) : (
             <tr className="text-2xl my-10 font-bold">
               <td>No products yet</td>
+              <td></td>
             </tr>
           )}
         </tbody>
