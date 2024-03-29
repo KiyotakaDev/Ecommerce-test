@@ -75,3 +75,15 @@ export const updateProduct = async (req, res) => {
     return res.status(500).json({ error: "Current error: " + error });
   }
 };
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params
+    const client = await pool.connect()
+    await client.query("DELETE FROM products WHERE id = $1", [id])
+    res.json("Product deleted!")
+    client.release()
+  } catch (error) {
+    return res.status(500).json({ error: "Current error: " + error })
+  }
+}
