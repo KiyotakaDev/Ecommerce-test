@@ -34,6 +34,22 @@ const Edit = () => {
   }, [id]);
 
   const handleSubmit = async (e) => {
+    e.preventDefault()
+    // Form validations
+    const errors = []
+    if (product.title.length < 3) errors.push("Title must contain at least 3 chars")
+    if (!product.title) errors.push("There's no title")
+    if (!product.description) errors.push("There's no description")
+    if (!product.price) errors.push("There's no price")
+    if (isNaN(product.price)) errors.push("Price must be a number")
+
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        toast.error(error)
+      })
+      return
+    }
+
     const { title, description, price } = product;
     const data = { title, description, price };
 
