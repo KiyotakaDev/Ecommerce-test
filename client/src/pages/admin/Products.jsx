@@ -119,13 +119,13 @@ const Products = () => {
                 Are you sure you want to delete this product?
               </p>
               <button
-                onClick={handleConfirmDelete}
+                onClick={handleConfirm}
                 className="bg-red-500 text-white px-4 py-2 rounded-md mr-2"
               >
                 Yes
               </button>
               <button
-                onClick={handleCancelDelete}
+                onClick={handleCancel}
                 className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
               >
                 No
