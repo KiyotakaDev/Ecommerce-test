@@ -10,6 +10,22 @@ const NewProduct = () => {
 
   const createProduct = async (e) => {
     e.preventDefault();
+
+    // Form validations
+    const errors = []
+    if (title.length < 3) errors.push("Title must contain at least 3 chars")
+    if (!title) errors.push("There's no title")
+    if (!description) errors.push("There's no description")
+    if (!price) errors.push("There's no price")
+    if (isNaN(price)) errors.push("Price must be a number")
+
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        toast.error(error)
+      })
+      return
+    }
+
     const data = { title, description, price };
     try {
       // Create product query
