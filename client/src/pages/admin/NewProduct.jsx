@@ -1,7 +1,8 @@
 import { useState } from "react";
-import axios from 'axios'
+import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion } from "framer-motion";
 
 const NewProduct = () => {
   const [title, setTitle] = useState("");
@@ -12,24 +13,24 @@ const NewProduct = () => {
     e.preventDefault();
 
     // Form validations
-    const errors = []
-    if (title.length < 3) errors.push("Title must contain at least 3 chars")
-    if (!title) errors.push("There's no title")
-    if (!description) errors.push("There's no description")
-    if (!price) errors.push("There's no price")
-    if (isNaN(price)) errors.push("Price must be a number")
+    const errors = [];
+    if (title.length < 3) errors.push("Title must contain at least 3 chars");
+    if (!title) errors.push("There's no title");
+    if (!description) errors.push("There's no description");
+    if (!price) errors.push("There's no price");
+    if (isNaN(price)) errors.push("Price must be a number");
 
     if (errors.length > 0) {
       errors.forEach((error) => {
-        toast.error(error)
-      })
-      return
+        toast.error(error);
+      });
+      return;
     }
 
     const data = { title, description, price };
     try {
       // Create product query
-      await axios.post("http://localhost:3000/api/products", data)
+      await axios.post("http://localhost:3000/api/products", data);
       // Toast succeed
       toast.success("Product Saved!");
       setTitle("");
@@ -42,7 +43,11 @@ const NewProduct = () => {
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+    >
       {/* Form container */}
       <form onSubmit={(e) => createProduct(e)}>
         <h1 className="text-teal-900 font-bold my-2 mb-4 text-xl">
@@ -72,8 +77,8 @@ const NewProduct = () => {
       </form>
       {/* Toast container */}
       <ToastContainer autoClose={2500} />
-    </>
-  )
-}
+    </motion.div>
+  );
+};
 
-export default NewProduct
+export default NewProduct;
