@@ -51,7 +51,11 @@ const Products = () => {
   };
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+    >
       <Link
         to={"new"}
         className="bg-emerald-500 text-xl text-white rounded-md py-1 px-2"
@@ -69,12 +73,7 @@ const Products = () => {
         <tbody>
           {products.length > 0 ? (
             products.map((product) => (
-              <motion.tr
-                key={product.id}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-              >
+              <tr key={product.id}>
                 <td>{product.title}</td>
                 <td className="flex gap-4">
                   <Link
@@ -92,7 +91,7 @@ const Products = () => {
                     Delete
                   </button>
                 </td>
-              </motion.tr>
+              </tr>
             ))
           ) : (
             <tr className="text-2xl my-10 font-bold">
@@ -120,13 +119,13 @@ const Products = () => {
                 Are you sure you want to delete this product?
               </p>
               <button
-                onClick={handleConfirm}
+                onClick={handleConfirmDelete}
                 className="bg-red-500 text-white px-4 py-2 rounded-md mr-2"
               >
                 Yes
               </button>
               <button
-                onClick={handleCancel}
+                onClick={handleCancelDelete}
                 className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
               >
                 No
@@ -136,7 +135,7 @@ const Products = () => {
         )}
       </AnimatePresence>
       <ToastContainer autoClose={1000} />
-    </div>
+    </motion.div>
   );
 };
 
