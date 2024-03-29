@@ -2,6 +2,7 @@ import { BackspaceIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,16 @@ const Products = () => {
 
     getProducts();
   }, []);
+
+  const deleteProduct = async (productID) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/product/${productID}`);
+      toast.success(response.data)
+      setProducts(products.filter((product) => product.id !== productID));
+    } catch (error) {
+      console.log("Deleting product error: " + error);
+    }
+  };
 
   return (
     <div>
@@ -50,13 +61,10 @@ const Products = () => {
                     <PencilSquareIcon className="w-6 h-6" />
                     Edit
                   </Link>
-                  <Link
-                    to={`product/${product.id}`}
-                    className="bg-red-400/80 px-2 py-1 rounded-lg text-base inline-flex gap-2"
-                  >
+                  <button onClick={() => deleteProduct(product.id)} className="bg-red-400/80 px-2 py-1 rounded-lg text-base inline-flex gap-2">
                     <BackspaceIcon className="w-6 h-6" />
                     Delete
-                  </Link>
+                  </button>
                 </td>
               </tr>
             ))
@@ -67,6 +75,7 @@ const Products = () => {
           )}
         </tbody>
       </table>
+      <ToastContainer autoClose={1000} />
     </div>
   );
 };
