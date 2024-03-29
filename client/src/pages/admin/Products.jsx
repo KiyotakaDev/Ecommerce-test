@@ -9,6 +9,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [deleting, setDeleting] = useState(null);
+  const [title, setTitle] = useState('')
 
   useEffect(() => {
     const getProducts = async () => {
@@ -84,7 +85,11 @@ const Products = () => {
                     Edit
                   </Link>
                   <button
-                    onClick={() => handleDeleteClick(product.id)}
+                    onClick={() => {
+                        setTitle(product.title)
+                        handleDeleteClick(product.id)
+                      }
+                    }
                     className="bg-red-400/80 px-2 py-1 rounded-lg text-base inline-flex gap-2"
                   >
                     <BackspaceIcon className="w-6 h-6" />
@@ -117,6 +122,7 @@ const Products = () => {
             >
               <p className="mb-4">
                 Are you sure you want to delete this product?
+                <p><b>"{title}"</b></p>
               </p>
               <button
                 onClick={handleConfirm}
