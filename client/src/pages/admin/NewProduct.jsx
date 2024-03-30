@@ -13,8 +13,8 @@ const NewProduct = () => {
     title: '',
     description: '',
     price: '',
+    images: []
   })
-  const [images, setImages] = useState([]);
 
   const createProduct = async (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const NewProduct = () => {
     const errors = [];
     if (product.title.length < 3) errors.push("Title must contain at least 3 chars");
     if (!product.title) errors.push("There's no title");
-    if (!images) errors.push("At least one image");
+    if (!product.images) errors.push("At least one image");
     if (!product.description) errors.push("There's no description");
     if (!product.price) errors.push("There's no price");
     if (isNaN(product.price)) errors.push("Price must be a number");
@@ -36,37 +36,30 @@ const NewProduct = () => {
     }
 
     try {
-      // Create form data
-      // const formData = new FormData()
-      // formData.append("title", product.title)
-      // formData.append("description", product.description)
-      // formData.append("price", product.price)
-      // images.forEach((image) => {
-      //   formData.append("images", image)
-      // })
-
-      const { title, description, price } = product
-      const data = { title, description, price }
-
       // Create product query
-      await axios.post("http://localhost:3000/api/products", data);
-      // Toast succeed
-      toast.success("Product Saved!");
-      navigate('/admin/products')
+      await axios.post("http://localhost:3000/api/products", product);
+      // Query succeed
+      // toast.success("Product Saved!");
+      // navigate('/admin/products')
     } catch (error) {
-      // Toast error
+      // Query error
       toast.error("Saving product error");
     }
   };
 
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length >= 4 || images.length >= 4) {
-      toast.error("Max 4 images");
+    // Makes array from e.target.files
+    const files = Array.from(e.target.files)
+    if (files.length >= 4 || product.images.length >= 4) {
+      toast.error("Max 4 images")
       return;
     }
-    setImages(prevFiles => [...prevFiles, ...files]);
-  };
+
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      images: [...prevProduct.images, ...files]
+    }))
+  }
 
   return (
     <motion.div
@@ -88,11 +81,11 @@ const NewProduct = () => {
         />
         <label>Images (Max 4)</label>
         <div className="my-2 flex gap-4">
-          {images.length > 0 ? (
+          {product.images.length > 0 ? (
             <>
-              {images.map((img) => (
+              {product.images.map((img, i) => (
                 <img
-                  key={img.name}
+                  key={i}
                   src={URL.createObjectURL(img)}
                   className="h-24 rounded-lg w-auto"
                 />
