@@ -4,11 +4,16 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const NewProduct = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const navigate = useNavigate()
+
+  const [product, setProduct] = useState({
+    title: '',
+    description: '',
+    price: '',
+  })
   const [images, setImages] = useState([]);
 
   const createProduct = async (e) => {
@@ -16,13 +21,12 @@ const NewProduct = () => {
 
     // Form validations
     const errors = [];
-    if (title.length < 3) errors.push("Title must contain at least 3 chars");
-    if (!title) errors.push("There's no title");
+    if (product.title.length < 3) errors.push("Title must contain at least 3 chars");
+    if (!product.title) errors.push("There's no title");
     if (!images) errors.push("At least one image");
-    if (!images.length > 4) errors.push("Max 4 images")
-    if (!description) errors.push("There's no description");
-    if (!price) errors.push("There's no price");
-    if (isNaN(price)) errors.push("Price must be a number");
+    if (!product.description) errors.push("There's no description");
+    if (!product.price) errors.push("There's no price");
+    if (isNaN(product.price)) errors.push("Price must be a number");
 
     if (errors.length > 0) {
       errors.forEach((error) => {
@@ -31,26 +35,24 @@ const NewProduct = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("price", price);
-    formData.forEach((image, index) => {
-      formData.append(`image-${index + 1}`, image);
-    });
-
     try {
+      // Create form data
+      // const formData = new FormData()
+      // formData.append("title", product.title)
+      // formData.append("description", product.description)
+      // formData.append("price", product.price)
+      // images.forEach((image) => {
+      //   formData.append("images", image)
+      // })
+
+      const { title, description, price } = product
+      const data = { title, description, price }
+
       // Create product query
-      await axios.post("http://localhost:3000/api/products", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post("http://localhost:3000/api/products", data);
       // Toast succeed
       toast.success("Product Saved!");
-      setTitle("");
-      setDescription("");
-      setPrice("");
+      navigate('/admin/products')
     } catch (error) {
       // Toast error
       toast.error("Saving product error");
@@ -80,9 +82,9 @@ const NewProduct = () => {
         <label>Product name</label>
         <input
           type="text"
-          value={title}
+          value={product.title}
           placeholder="Product Name"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setProduct({ ...product, title: e.target.value })}
         />
         <label>Images (Max 4)</label>
         <div className="my-2 flex gap-4">
@@ -111,16 +113,16 @@ const NewProduct = () => {
         </div>
         <label>Description</label>
         <textarea
-          value={description}
+          value={product.description}
           placeholder="description"
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setProduct({ ...product, description: e.target.value })}
         />
         <label>Price</label>
         <input
           type="text"
-          value={price}
+          value={product.price}
           placeholder="price"
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => setProduct({ ...product, price: e.target.value })}
         />
         <button className="btn-primary">Save</button>
       </form>
